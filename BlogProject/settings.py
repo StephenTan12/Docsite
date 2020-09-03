@@ -32,7 +32,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = 'm7*nbdtacr!$i9!$_s%pwzgkd#!@s)zcb7k3k!+0=(2+dog759'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['docsite13.herokuapp.com']
 
