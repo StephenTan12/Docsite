@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'm7*nbdtacr!$i9!$_s%pwzgkd#!@s)zcb7k3k!+0=(2+dog759'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['docsite12.herokuapp.com']
+ALLOWED_HOSTS = ['docsite13.herokuapp.com']
 
 
 # Application definition
@@ -171,6 +171,8 @@ STATICFILES_DIRS = [
 ]
 django_heroku.settings(locals())
 
+"""
 import dj_database_url 
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
+"""
