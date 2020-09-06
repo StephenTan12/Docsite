@@ -69,6 +69,8 @@ class search(ListView):
     model = Article
     template_name = 'searchresults.html'
     def get_queryset(self): 
+        if not user.is_authenticated: #checks whether if user is logged in
+            return redirect('/') #Redirects to login page
         user = self.request.user #getting the current user
         query = self.request.GET.get('q') #getting the submitted document information by the variable name in forms
         userList = Article.objects.filter(author=user) #filters all of the documents created by the user
@@ -81,7 +83,7 @@ class search(ListView):
 def dashboard(request):
     user = request.user #gets the information of the user
     if not user.is_authenticated: #checks whether if user is logged in
-        return redirect('login/') #Redirects to login page
+        return redirect('/') #Redirects to login page
     all_question=Question.objects.all()
     all_answer=Answer.objects.all()
     return render(request,"dashboard.html",{"all_question":all_question,"all_answer":all_answer})
@@ -90,7 +92,7 @@ def dashboard(request):
 def questions(request):
     user = request.user #gets the information of the user
     if not user.is_authenticated: #checks whether if user is logged in
-        return redirect('login/') #Redirects to login page
+        return redirect('/') #Redirects to login page
     if request.method == "POST": #if question form is submitted, a new question is created
         question = request.POST["question"]
         question_instance = Question.objects.create(
@@ -106,7 +108,7 @@ def questions(request):
 def discussion(request,question_id):
     user = request.user #gets the information of the user
     if not user.is_authenticated: #checks whether if user is logged in
-        return redirect('login/') #Redirects to login page
+        return redirect('/') #Redirects to login page
     question=Question.objects.get(pk=question_id)
     if request.method == "POST": #if answer form is submitted, a new answer is posted
         answer=request.POST["answer"]
@@ -124,7 +126,7 @@ def discussion(request,question_id):
 def upvote(request,answer_id):
     user = request.user #gets the information of the user
     if not user.is_authenticated: #checks whether if user is logged in
-        return redirect('login/') #Redirects to login page
+        return redirect('/') #Redirects to login page
     answer=Answer.objects.get(pk=answer_id)
     upvotes=Upvote.objects.filter(reader=request.user,answer=answer)
     if len(upvotes) == 0:
@@ -139,7 +141,7 @@ def upvote(request,answer_id):
 def delete_ques(request, question_id):
     user = request.user #gets the information of the user
     if not user.is_authenticated: #checks whether if user is logged in
-        return redirect('login/') #Redirects to login page
+        return redirect('/') #Redirects to login page
     question = Question.objects.get(pk=question_id)
     print(question_id)
     question.delete()
@@ -150,7 +152,7 @@ def delete_ques(request, question_id):
 def delete_ans(request, answer_id):
     user = request.user #gets the information of the user
     if not user.is_authenticated: #checks whether if user is logged in
-        return redirect('login/') #Redirects to login page
+        return redirect('/') #Redirects to login page
     answer = Answer.objects.get(pk=answer_id)
     print(answer_id)
     answer.delete()
