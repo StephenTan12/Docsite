@@ -8,7 +8,7 @@ def register(response):
         form = RegisterForm(response.POST) #gets the submitted data
         if form.is_valid():
             form.save() #save the data in the database to create a new user
-        return redirect("/") #redirects to homepage
+            return redirect("/") #redirects to homepage
     else:
         #failure to comply to submission requirements results in the same page
         form = RegisterForm()
