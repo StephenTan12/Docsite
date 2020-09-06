@@ -9,6 +9,7 @@ import datetime
 
 #Rendering the homepage
 def index(request):
+    print("before user auth")
     user = request.user #gets the information of the user
     if not user.is_authenticated: #checks whether if user is logged in
         return redirect('login/') #Redirects to login page
@@ -21,6 +22,7 @@ def index(request):
         return render(request, 'searchresults.html', {'documents': documents})
     searchForm = SearchForm()
     form = CreateNewArticle()
+    print("going to render page")
     return render(request, 'home.html', {'form': form, 'articles': articles, 'user': user, 'searchForm': searchForm})
 
 #Rendering the edit page when edit button is pressed
@@ -64,6 +66,9 @@ def create(request):
 
 #Rendering the page after the user querys the database for their document
 class search(ListView):
+    user = request.user #gets the information of the user
+    if not user.is_authenticated: #checks whether if user is logged in
+        return redirect('login/') #Redirects to login page
     model = Article
     template_name = 'searchresults.html'
     def get_queryset(self): 
@@ -77,12 +82,18 @@ class search(ListView):
 
 #Renders the dashboard page where all questions with the correlated answers are displated
 def dashboard(request):
+    user = request.user #gets the information of the user
+    if not user.is_authenticated: #checks whether if user is logged in
+        return redirect('login/') #Redirects to login page
     all_question=Question.objects.all()
     all_answer=Answer.objects.all()
     return render(request,"dashboard.html",{"all_question":all_question,"all_answer":all_answer})
 
 #Renders the page where all questions created are listed
 def questions(request):
+    user = request.user #gets the information of the user
+    if not user.is_authenticated: #checks whether if user is logged in
+        return redirect('login/') #Redirects to login page
     if request.method == "POST": #if question form is submitted, a new question is created
         question = request.POST["question"]
         question_instance = Question.objects.create(
@@ -96,6 +107,9 @@ def questions(request):
 
 #Renders the page unique to the question, will also contain the answers correlated to the question
 def discussion(request,question_id):
+    user = request.user #gets the information of the user
+    if not user.is_authenticated: #checks whether if user is logged in
+        return redirect('login/') #Redirects to login page
     question=Question.objects.get(pk=question_id)
     if request.method == "POST": #if answer form is submitted, a new answer is posted
         answer=request.POST["answer"]
@@ -111,6 +125,9 @@ def discussion(request,question_id):
 
 #Allows the upvoting of a submitted answer
 def upvote(request,answer_id):
+    user = request.user #gets the information of the user
+    if not user.is_authenticated: #checks whether if user is logged in
+        return redirect('login/') #Redirects to login page
     answer=Answer.objects.get(pk=answer_id)
     upvotes=Upvote.objects.filter(reader=request.user,answer=answer)
     if len(upvotes) == 0:
@@ -123,6 +140,9 @@ def upvote(request,answer_id):
 
 #Deletes the related question if delete button is pressed
 def delete_ques(request, question_id):
+    user = request.user #gets the information of the user
+    if not user.is_authenticated: #checks whether if user is logged in
+        return redirect('login/') #Redirects to login page
     question = Question.objects.get(pk=question_id)
     print(question_id)
     question.delete()
@@ -131,6 +151,9 @@ def delete_ques(request, question_id):
 
 #Deletes the related answer if delete button is pressed
 def delete_ans(request, answer_id):
+    user = request.user #gets the information of the user
+    if not user.is_authenticated: #checks whether if user is logged in
+        return redirect('login/') #Redirects to login page
     answer = Answer.objects.get(pk=answer_id)
     print(answer_id)
     answer.delete()
