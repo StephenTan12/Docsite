@@ -66,10 +66,10 @@ def create(request):
 
 #Rendering the page after the user querys the database for their document
 class search(ListView):
-    user = request.user #getting the current user
     model = Article
     template_name = 'searchresults.html'
     def get_queryset(self): 
+        user = self.request.user #getting the current user
         if not user.is_authenticated: #checks whether if user is logged in
             return redirect('/') #Redirects to login page
         query = self.request.GET.get('q') #getting the submitted document information by the variable name in forms
