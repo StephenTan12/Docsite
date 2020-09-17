@@ -66,7 +66,7 @@ def create(request):
 
 #Rendering the page after the user querys the database for their document
 class search(ListView):
-    user = self.request.user #getting the current user
+    user = request.user #getting the current user
     model = Article
     template_name = 'searchresults.html'
     def get_queryset(self): 
